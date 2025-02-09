@@ -1,0 +1,24 @@
+venv/
+env/
+.env
+*.secret
+*.pyc
+
+
+
+
+# Arquivos de log e cache
+logs/
+*.log
+*.out
+*.pid
+*.seed
+*.swp
+*.swo
+*.swn
+
+__pycache__/
+*.pyo
+*.pyd
+*.pdb
+*.py[cod]
