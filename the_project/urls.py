@@ -22,7 +22,7 @@ from . import views
 app_name = 'project'
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('account/', include('account.urls'), namespace= 'account'),
+    path('account/', include(('account.urls', 'account'))),
     path('', views.home, name='home')
 ]
 if settings.DEBUG:
