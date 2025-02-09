@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login, logout as logout_handler
 from django.views.decorators.http import require_http_methods
-from django.contrib.auth.models import User
+from .models import CustomUser
 import re
 
 # Validation functions
@@ -22,18 +22,18 @@ def get_authenticated_user(username_or_email, password):
     user = None
     if is_valid_email(username_or_email):
         try:
-            user = User.objects.get(email=username_or_email)
+            user = CustomUser.objects.get(email=username_or_email)
             username_or_email = user.username  # Convert email to username for authentication
-        except User.DoesNotExist:
+        except CustomUser.DoesNotExist:
             return None
 
     return authenticate(username=username_or_email, password=password)
 
 # Helper function to validate registration input
-def validate_registration_data(username, email, match_email, password, match_password):
-    if not all([username, email, match_email, password, match_password]):
+def validate_registration_data(username, email, match_email, password, match_password, birth_date, gender, bio):
+    if not all([username, email, match_email, password, match_password, birth_date, gender, bio]):
         return "All fields are required"
-    
+
     if not is_valid_username(username):
         return "Invalid username format"
 
@@ -49,10 +49,16 @@ def validate_registration_data(username, email, match_email, password, match_pas
     if password != match_password:
         return "Passwords do not match"
 
-    if User.objects.filter(username=username).exists():
+    if gender not in ['M', 'F', 'O']:
+        return "Invalid gender selection"
+
+    if len(bio) > 500:
+        return "Bio cannot exceed 500 characters"
+
+    if CustomUser.objects.filter(username=username).exists():
         return "Username already exists"
 
-    if User.objects.filter(email=email).exists():
+    if CustomUser.objects.filter(email=email).exists():
         return "Email already registered"
 
     return None  # No errors
@@ -100,12 +106,23 @@ def register(request):
     match_email = request.POST.get('matchEmail')
     password = request.POST.get('password')
     match_password = request.POST.get('matchpassword')
+    birth_date = request.POST.get('birth_date')
+    gender = request.POST.get('gender')
+    bio = request.POST.get('bio')
 
-    error_message = validate_registration_data(username, email, match_email, password, match_password)
+    error_message = validate_registration_data(username, email, match_email, password, match_password, birth_date, gender, bio)
     if error_message:
         return render(request, 'account/register.html', {'error': error_message})
 
-    user = User.objects.create_user(username=username, email=email, password=password)
+    user = CustomUser.objects.create_user(
+        username=username,
+        email=email,
+        password=password,
+        birth_date=birth_date,
+        gender=gender,
+        bio=bio
+    )
+
     auth_login(request, user)
     return redirect('project:home')
 
@@ -121,8 +138,12 @@ def update_user(request):
     username = request.POST.get('username')
     email = request.POST.get('email')
     password = request.POST.get('password')
+    birth_date = request.POST.get('birth_date')
+    gender = request.POST.get('gender')
+    bio = request.POST.get('bio')
+    profile_picture = request.FILES.get('profile_picture')
 
-    error_message = validate_update_data(username, email, password)
+    error_message = validate_update_data(username, email, password, birth_date, gender, bio)
     if error_message:
         return render(request, 'account/update.html', {'error': error_message})
 
@@ -133,12 +154,20 @@ def update_user(request):
         user.email = email
     if password:
         user.set_password(password)
+    if birth_date:
+        user.birth_date = birth_date
+    if gender:
+        user.gender = gender
+    if bio:
+        user.bio = bio
+    if profile_picture:
+        user.profile_picture = profile_picture
 
     user.save()
     return redirect('project:home')
 
 # Helper function to validate update input
-def validate_update_data(username, email, password):
+def validate_update_data(username, email, password, birth_date, gender, bio):
     if username and not is_valid_username(username):
         return "Invalid username format"
 
@@ -147,5 +176,11 @@ def validate_update_data(username, email, password):
 
     if password and not is_valid_password(password):
         return "Weak password"
+
+    if gender and gender not in ['M', 'F', 'O']:
+        return "Invalid gender selection"
+
+    if bio and len(bio) > 500:
+        return "Bio cannot exceed 500 characters"
 
     return None  # No errors
