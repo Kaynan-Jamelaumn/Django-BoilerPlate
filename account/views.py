@@ -3,6 +3,10 @@ from django.contrib.auth import authenticate, login as auth_login, logout as log
 from django.views.decorators.http import require_http_methods
 from .models import CustomUser
 import re
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+
 
 # Validation functions
 def is_valid_password(password):
@@ -184,3 +188,61 @@ def validate_update_data(username, email, password, birth_date, gender, bio):
         return "Bio cannot exceed 500 characters"
 
     return None  # No errors
+
+
+
+
+
+# Get a single user by ID
+def get_user(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    return JsonResponse({
+        'id': user.id,
+        'username': user.username,
+        'email': user.email,
+        'gender': user.gender,
+        'birth_date': user.birth_date,
+        'bio': user.bio,
+        'profile_picture': user.profile_picture.url if user.profile_picture else None,
+        'date_joined': user.date_joined,
+        'last_login': user.last_login
+    })
+
+# Get all users
+def get_users(request):
+    users = CustomUser.objects.all().values('id', 'username', 'email', 'gender', 'birth_date', 'bio', 'profile_picture', 'date_joined', 'last_login')
+    return JsonResponse(list(users), safe=False)
+
+# Get the authenticated user
+@login_required
+def get_this_user(request):
+    user = request.user
+    return JsonResponse({
+        'id': user.id,
+        'username': user.username,
+        'email': user.email,
+        'gender': user.gender,
+        'birth_date': user.birth_date,
+        'bio': user.bio,
+        'profile_picture': user.profile_picture.url if user.profile_picture else None,
+        'date_joined': user.date_joined,
+        'last_login': user.last_login
+    })
+
+# Filter users by criteria (e.g., email, name, gender)
+def filter_users(request):
+    email = request.GET.get('email', None)
+    username = request.GET.get('username', None)
+    gender = request.GET.get('gender', None)
+
+    users = CustomUser.objects.all()
+
+    if email:
+        users = users.filter(email__icontains=email)
+    if username:
+        users = users.filter(username__icontains=username)
+    if gender:
+        users = users.filter(gender=gender)
+
+    users_data = users.values('id', 'username', 'email', 'gender', 'birth_date', 'bio', 'profile_picture', 'date_joined', 'last_login')
+    return JsonResponse(list(users_data), safe=False)
