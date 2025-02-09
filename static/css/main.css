@@ -29,3 +29,23 @@ body {
 .transition-all {
     transition: all 0.3s ease-in-out;
 }
+
+
+
+footer {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    width: 100%; /* Ocupa a largura total da tela */
+    padding: 20px 0; /* Adiciona um espaçamento interno */
+    background-color: var(--background-light); /* Cor de fundo */
+    color: var(--text-light); /* Cor do texto */
+    text-align: center; /* Centraliza o texto */
+    border-top: 1px solid var(--input-border-light); /* Borda superior (opcional) */
+}
+
+.dark-mode footer {
+    background-color: var(--background-dark); /* Cor de fundo no modo escuro */
+    color: var(--text-dark); /* Cor do texto no modo escuro */
+    border-top: 1px solid var(--input-border-dark); /* Borda superior no modo escuro */
+}
