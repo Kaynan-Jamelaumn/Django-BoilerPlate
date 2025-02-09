@@ -1,0 +1,31 @@
+/* Light and Dark Mode Styles */
+:root {
+    --background-light: #ffffff;
+    --text-light: #333333;
+    --background-dark: #1e1e1e;
+    --text-dark: #ffffff;
+    --primary-color: #38b4c5;
+    --secondary-color: #6c757d;
+    --error-color: #dc3545;
+    --input-bg-light: #f8f9fa;
+    --input-bg-dark: #333333;
+    --input-border-light: #ced4da;
+    --input-border-dark: #555555;
+}
+
+body {
+    background-color: var(--background-light);
+    color: var(--text-light);
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode {
+    background-color: var(--background-dark);
+    color: var(--text-dark);
+}
+
+/* Common Transitions */
+.transition-all {
+    transition: all 0.3s ease-in-out;
+}

@@ -1,0 +1,158 @@
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: var(--background-light);
+    transition: background-color 0.3s;
+}
+
+.dark-mode header {
+    background-color: var(--background-dark);
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+/* Right-side container */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: absolute;
+    right: 20px;
+}
+
+/* Toggle Theme Button */
+.toggle-theme {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: inherit;
+    padding: 0;
+    margin-right: 10px;
+}
+
+.toggle-theme:hover {
+    opacity: 0.8;
+}
+
+#moon-icon,
+#sun-icon {
+    transition: opacity 0.3s ease;
+}
+
+/* User Menu */
+.user-menu {
+    position: relative;
+}
+
+.user-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: filter 0.3s;
+}
+
+.user-icon:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.user-icon:hover .user-avatar {
+    filter: brightness(0.85);
+}
+
+/* Dropdown Menu */
+.user-dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 50px;
+    background: var(--background-light);
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    min-width: 150px;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.dark-mode .user-dropdown-menu {
+    background: var(--background-dark);
+}
+
+.user-dropdown-menu a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: var(--text-light);
+}
+
+.dark-mode .user-dropdown-menu a {
+    color: var(--text-dark);
+}
+
+.user-dropdown-menu a:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid var(--input-border-light);
+    color: var(--text-light);
+}
+
+.dark-mode .user-info {
+    color: var(--text-dark);
+    border-bottom: 1px solid var(--input-border-dark);
+}
+
+.user-info img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Ensure full alignment */
+nav ul {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}

@@ -1,0 +1,42 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+<header>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            {% if not request.user.is_authenticated %}
+                <li><a href="{% url 'account:login' %}">Login</a></li>
+                <li><a href="{% url 'account:register' %}">Registrar</a></li>
+            {% endif %}
+        </ul>
+
+        {% if request.user.is_authenticated %}
+        <div class="header-right">
+            <!-- Toggle Dark Mode Icon -->
+            <button class="toggle-theme" onclick="toggleDarkMode()">
+                <i class="fas fa-moon" id="moon-icon"></i> <!-- Moon icon for light mode -->
+                <i class="fas fa-sun" id="sun-icon" style="display: none;"></i> <!-- Sun icon for dark mode -->
+            </button>
+
+            <div class="user-menu">
+                <button class="user-icon" onclick="toggleUserMenu()">
+                    {% if request.user.profile_picture and request.user.profile_picture.url %}
+                        <img src="{{ request.user.profile_picture.url }}" alt="User Avatar" class="user-avatar">
+                    {% else %}
+                        <img src="{% static 'images/default-avatar.png' %}" alt="User Avatar" class="user-avatar">
+                    {% endif %}
+                </button>
+                
+                <div class="user-dropdown-menu" id="userDropdown">
+                    <div class="user-info">
+                        <img src="{{ request.user.profile_picture.url }}" alt="User Avatar" class="user-avatar">
+                        <span>{{ request.user.username }}</span>
+                    </div>
+                    <a href="{% url 'account:update' %}">Perfil</a>
+                    <a href="{% url 'account:logout' %}">Logout</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </nav>
+</header>

@@ -71,7 +71,7 @@ def validate_registration_data(username, email, match_email, password, match_pas
 @require_http_methods(["GET", "POST"])
 def login(request):
     if request.user.is_authenticated:
-        return redirect('project:home')
+        return redirect('home')
 
     if request.method == 'GET':
         return render(request, 'account/login.html')
@@ -88,19 +88,19 @@ def login(request):
         return render(request, 'account/login.html', {'error': 'Invalid credentials'})
 
     auth_login(request, user)
-    return redirect('project:home')
+    return redirect('home')
 
 # Logout view
 @require_http_methods(["GET"])
 def logout(request):
     logout_handler(request)
-    return redirect('project:home')
+    return redirect('home')
 
 # Register view
 @require_http_methods(["GET", "POST"])
 def register(request):
     if request.user.is_authenticated:
-        return redirect('project:home')
+        return redirect('home')
 
     if request.method == 'GET':
         return render(request, 'account/register.html')
@@ -128,7 +128,7 @@ def register(request):
     )
 
     auth_login(request, user)
-    return redirect('project:home')
+    return redirect('home')
 
 # Update user view
 @require_http_methods(["GET", "POST"])
@@ -168,7 +168,7 @@ def update_user(request):
         user.profile_picture = profile_picture
 
     user.save()
-    return redirect('project:home')
+    return redirect('home')
 
 # Helper function to validate update input
 def validate_update_data(username, email, password, birth_date, gender, bio):

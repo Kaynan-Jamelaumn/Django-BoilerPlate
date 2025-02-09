@@ -8,11 +8,11 @@ class CustomUser(AbstractUser):
         ('O', 'Outro'),
     ]
 
-    birth_date = models.DateField(null=True, blank=True, verbose_name="Data de Nascimento")
-    profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True, verbose_name="Foto de Perfil")
-    bio = models.TextField(max_length=500, blank=True, verbose_name="Biografia")
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True, blank=True, verbose_name="Sexo")
-    modified_at = models.DateTimeField(auto_now=True, verbose_name="Data de Modificação")
+    birth_date = models.DateField(null=True, blank=True, verbose_name="birthDay")
+    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True, default='default-avatar.png', verbose_name="Profile Picture")
+    bio = models.TextField(max_length=500, blank=True, verbose_name="Biografy")
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True, blank=True, verbose_name="Sex")
+    modified_at = models.DateTimeField(auto_now=True, verbose_name="Modification Data")
 
     # Fixing the reverse accessor clash
     groups = models.ManyToManyField(Group, related_name="custom_user_groups", blank=True)
