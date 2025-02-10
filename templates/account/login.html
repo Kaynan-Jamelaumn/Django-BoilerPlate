@@ -7,11 +7,16 @@
     <h2>Login</h2>
     <form method="POST" action="{% url 'account:login' %}">
         {% csrf_token %}
-        <label for="username">Username or Email:</label>
-        <input type="text" id="username" name="username" required>
+        <label for="username_or_email">Username or Email:</label>
+        <input type="text" id="username_or_email" name="username_or_email" required>
+        
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
-        {% if error %}<p class="error">{{ error }}</p>{% endif %}
+        
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+        
         <button class="form-button" type="submit">Login</button>
     </form>
     <p>Don't have an account? <a href="{% url 'account:register' %}">Register</a></p>
