@@ -1,5 +1,6 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+
 <header>
     <nav>
         <ul class="nav-links">
@@ -36,13 +37,17 @@
                         {% if request.user.profile_picture and request.user.profile_picture.url %}
                             <img src="{{ request.user.profile_picture.url }}" alt="User Avatar" class="user-avatar">
                         {% else %}
-                            <img src="{% static 'images/default-avatar.png' %}" alt="User Avatar" class="user-avatar">
+                            <img src="{% static 'profile_pics/default-avatar.png' %}" alt="User Avatar" class="user-avatar">
                         {% endif %}
                     </button>
                     
                     <div class="user-dropdown-menu" id="userDropdown">
                         <div class="user-info">
-                            <img src="{{ request.user.profile_picture.url }}" alt="User Avatar" class="user-avatar">
+                            {% if request.user.profile_picture and request.user.profile_picture.url %}
+                                <img src="{{ request.user.profile_picture.url }}" alt="User Avatar" class="user-avatar">
+                            {% else %}
+                                <img src="{% static 'profile_pics/default-avatar.png' %}" alt="User Avatar" class="user-avatar">
+                            {% endif %}
                             <span>{{ request.user.username }}</span>
                         </div>
                         <a href="{% url 'account:update' %}">Perfil</a>

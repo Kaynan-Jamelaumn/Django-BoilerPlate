@@ -39,6 +39,8 @@ def validate_user_data(**kwargs):
             return "Invalid file type. Only JPG, JPEG, PNG, GIF allowed."
     return None
 
+
+
 def authenticate_user(identifier, password):
     user = CustomUser.objects.filter(email=identifier).first() or CustomUser.objects.filter(username=identifier).first()
     return authenticate(username=user.username, password=password) if user else None
@@ -71,25 +73,34 @@ def logout(request):
 def register(request):
     if request.user.is_authenticated:
         return redirect('home')
-    
+
     if request.method == 'POST':
         data = {key: request.POST.get(key) for key in ['username', 'email', 'confirm_email', 'password', 'confirm_password', 'birth_date', 'gender', 'bio']}
         data['profile_picture'] = request.FILES.get('profile_picture')
-        
+
+        # Validate confirm email and confirm password
         if data['email'] != data['confirm_email']:
             return render(request, 'account/register.html', {'error': "Emails do not match"})
         if data['password'] != data['confirm_password']:
             return render(request, 'account/register.html', {'error': "Passwords do not match"})
-        
+
+        # Validate input fields
         error = validate_user_data(**data)
         if error:
             return render(request, 'account/register.html', {'error': error})
-        
-        user = CustomUser.objects.create_user(**{k: v for k, v in data.items() if k != 'confirm_email'})
+
+        # Assign default profile picture if none is provided
+        if not data['profile_picture']:
+            data['profile_picture'] = 'profile_pics/default-avatar.png'
+
+        # Remove confirm_email and confirm_password before creating user
+        valid_data = {k: v for k, v in data.items() if k not in ['confirm_email', 'confirm_password']}
+        user = CustomUser.objects.create_user(**valid_data)
         auth_login(request, user)
         return redirect('home')
-    
+
     return render(request, 'account/register.html')
+
 
 @login_required
 @require_http_methods(["GET", "POST"])
