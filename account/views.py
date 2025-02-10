@@ -229,7 +229,7 @@ def get_this_user(request):
         'last_login': user.last_login
     })
 
-# Filter users by criteria (e.g., email, name, gender)
+@require_http_methods(["GET", "POST"])
 def filter_users(request):
     email = request.GET.get('email', None)
     username = request.GET.get('username', None)
@@ -244,5 +244,13 @@ def filter_users(request):
     if gender:
         users = users.filter(gender=gender)
 
-    users_data = users.values('id', 'username', 'email', 'gender', 'birth_date', 'bio', 'profile_picture', 'date_joined', 'last_login')
-    return JsonResponse(list(users_data), safe=False)
+    # Debug: Print the filtered users to the console
+    print("Filtered Users:", users)
+
+    # Check if the request is an AJAX request or expects JSON
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.GET.get('format') == 'json':
+        users_data = users.values('id', 'username', 'email', 'gender', 'birth_date', 'bio', 'profile_picture', 'date_joined', 'last_login')
+        return JsonResponse(list(users_data), safe=False)
+    else:
+        # Render the HTML template for non-AJAX requests
+        return render(request, 'account/search_results.html', {'users': users})

@@ -49,3 +49,31 @@ footer {
     color: var(--text-dark); /* Cor do texto no modo escuro */
     border-top: 1px solid var(--input-border-dark); /* Borda superior no modo escuro */
 }
+
+
+/* Add this to your navbar.css or a relevant CSS file */
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-form input,
+.search-form select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-form button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-form button:hover {
+    background-color: #0056b3;
+}

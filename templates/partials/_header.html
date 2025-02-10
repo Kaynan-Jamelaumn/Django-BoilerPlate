@@ -11,6 +11,19 @@
         </ul>
 
         <div class="header-right">
+            <!-- Search Bar -->
+            <form class="search-form" action="{% url 'account:filter_users' %}" method="get">
+                <input type="text" name="username" placeholder="Search by username">
+                <input type="text" name="email" placeholder="Search by email">
+                <select name="gender">
+                    <option value="">Any Gender</option>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                    <option value="O">Other</option>
+                </select>
+                <button type="submit">Search</button>
+            </form>
+
             <!-- Toggle Dark Mode Icon -->
             <button class="toggle-theme" onclick="toggleDarkMode()">
                 <i class="fas fa-moon" id="moon-icon"></i> <!-- Moon icon for light mode -->
