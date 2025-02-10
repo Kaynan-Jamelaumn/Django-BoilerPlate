@@ -1,0 +1,116 @@
+/* Search Results Section */
+.search-result {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.search-result h1 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.search-result p {
+    font-size: 1rem;
+    color: var(--text-light);
+    margin-bottom: 20px;
+}
+
+.dark-mode .search-result p {
+    color: var(--text-dark);
+}
+
+.search-result ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.search-result li {
+    padding: 10px;
+    border-bottom: 1px solid var(--input-border-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    color: var(--text-light);
+}
+
+.dark-mode .search-result li {
+    border-bottom: 1px solid var(--input-border-dark);
+    color: var(--text-dark);
+}
+
+.search-result li:last-child {
+    border-bottom: none;
+}
+
+/* Delete Button */
+.delete-btn {
+    background-color: var(--error-color);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+/* Confirmation Modal */
+#confirmationModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--background-light);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    text-align: center;
+}
+
+.dark-mode #confirmationModal {
+    background-color: var(--background-dark);
+    color: var(--text-dark);
+}
+
+#confirmationModal p {
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+#confirmationModal button {
+    padding: 5px 10px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+}
+
+#confirmDeactivate {
+    background-color: var(--error-color);
+    color: white;
+}
+
+#confirmDeactivate:hover {
+    background-color: #c82333;
+}
+
+#cancelDeactivate {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+#cancelDeactivate:hover {
+    background-color: #5a6268;
+}

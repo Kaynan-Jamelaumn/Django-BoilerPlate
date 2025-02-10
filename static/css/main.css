@@ -50,8 +50,6 @@ footer {
     border-top: 1px solid var(--input-border-dark); /* Borda superior no modo escuro */
 }
 
-
-/* Add this to your navbar.css or a relevant CSS file */
 .search-form {
     display: flex;
     align-items: center;

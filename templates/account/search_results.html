@@ -1,17 +1,33 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block main %}
-<h1>Search Results</h1>
-<!-- Debug: Print the number of users -->
-<p>Number of Users: {{ users|length }}</p>
+<div class="search-result">
 
-{% if users %}
+    <h1>Search Results</h1>
+    <!-- Debug: Print the number of users -->
+    <p>Number of Users: {{ users|length }}</p>
+    
+    {% if users %}
     <ul>
         {% for user in users %}
-            <li>{{ user.username }} - {{ user.email }}</li>
+        <li>
+            {{ user.username }} - {{ user.email }}
+            {% if request.user.is_staff %}  <!-- Only show delete button for admins -->
+            <button class="delete-btn" data-user-id="{{ user.id }}">x</button>
+            {% endif %}
+        </li>
         {% endfor %}
     </ul>
-{% else %}
+    {% else %}
     <p>No users found.</p>
-{% endif %}
+    {% endif %}
+    
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" style="display: none;">
+        <p>Are you sure you want to deactivate this user?</p>
+        <button id="confirmDeactivate">Yes</button>
+        <button id="cancelDeactivate">No</button>
+    </div>
+    <script src="{% static 'js/search-result.js' %}"></script>
+</div>
 {% endblock %}
